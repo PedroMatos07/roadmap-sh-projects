@@ -1,5 +1,7 @@
 package com.pedromatos.todo_list_api.service;
 
+import com.pedromatos.todo_list_api.dto.UserRegistrationDTO;
+import com.pedromatos.todo_list_api.dto.UserResponseDTO;
 import com.pedromatos.todo_list_api.model.User;
 import com.pedromatos.todo_list_api.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -7,14 +9,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 
-    private UserRepository repository;
+    private final UserRepository userRepository;
 
     public UserService(UserRepository repository){
-        this.repository = repository;
+        this.userRepository = repository;
     }
 
-    public User findByEmail(String email){
-        return repository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User with that email was not found"));
+    public UserResponseDTO registerUser(UserRegistrationDTO request){
+        User newUser = new User(null, request.name(), request.email(), request.password());
+
+        User savedUser = userRepository.save(newUser);
+
+        return new UserResponseDTO(savedUser.getId(),savedUser.getName(),savedUser.getEmail());
     }
 }

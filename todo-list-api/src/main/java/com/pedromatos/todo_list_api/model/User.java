@@ -1,5 +1,6 @@
 package com.pedromatos.todo_list_api.model;
 
+import com.pedromatos.todo_list_api.dto.UserRegistrationDTO;
 import jakarta.persistence.*;
 
 @Entity

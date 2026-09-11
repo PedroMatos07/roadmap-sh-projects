@@ -1,12 +1,16 @@
 package com.pedromatos.todo_list_api.controller;
 
+import com.pedromatos.todo_list_api.dto.UserRegistrationDTO;
 import com.pedromatos.todo_list_api.dto.UserResponseDTO;
 import com.pedromatos.todo_list_api.model.User;
 import com.pedromatos.todo_list_api.service.UserService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.Optional;
+import java.net.URI;
 
 @RestController
 @RequestMapping("/user")
@@ -19,11 +23,17 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public void registerUser() {}
+    public ResponseEntity<UserResponseDTO> registerUser(@Valid @RequestBody UserRegistrationDTO request, UriComponentsBuilder uriBuilder){
+           UserResponseDTO userCreated = userService.registerUser(request);
 
-    @GetMapping
-    public ResponseEntity<UserResponseDTO> findByEmail(@RequestParam(required = true) String email){
-        User user = userService.findByEmail(email);
-        return ResponseEntity.ok(new UserResponseDTO(user.getEmail(), user.getName()));
+        URI uri = uriBuilder
+                .path("/{id}")
+                .buildAndExpand(userCreated.id())
+                .toUri();
+
+            return ResponseEntity.created(uri).body(userCreated);
+
+
     }
+
 }
