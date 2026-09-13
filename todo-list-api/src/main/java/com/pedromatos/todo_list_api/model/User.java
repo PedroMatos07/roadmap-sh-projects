@@ -1,6 +1,5 @@
 package com.pedromatos.todo_list_api.model;
 
-import com.pedromatos.todo_list_api.dto.UserRegistrationDTO;
 import jakarta.persistence.*;
 
 @Entity
@@ -16,7 +15,7 @@ public class User {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "password")

@@ -1,11 +1,11 @@
 package com.pedromatos.todo_list_api.controller;
 
-import com.pedromatos.todo_list_api.dto.UserRegistrationDTO;
-import com.pedromatos.todo_list_api.dto.UserResponseDTO;
-import com.pedromatos.todo_list_api.model.User;
+import com.pedromatos.todo_list_api.dto.LoginRequestDTO;
+import com.pedromatos.todo_list_api.dto.LoginResponseDTO;
+import com.pedromatos.todo_list_api.dto.RegistrationRequestDTO;
+import com.pedromatos.todo_list_api.dto.RegistrationResponseDTO;
 import com.pedromatos.todo_list_api.service.UserService;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -23,8 +23,8 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserResponseDTO> registerUser(@Valid @RequestBody UserRegistrationDTO request, UriComponentsBuilder uriBuilder){
-           UserResponseDTO userCreated = userService.registerUser(request);
+    public ResponseEntity<RegistrationResponseDTO> registerUser(@Valid @RequestBody RegistrationRequestDTO request, UriComponentsBuilder uriBuilder){
+           RegistrationResponseDTO userCreated = userService.registerUser(request);
 
         URI uri = uriBuilder
                 .path("/{id}")
@@ -34,6 +34,11 @@ public class UserController {
             return ResponseEntity.created(uri).body(userCreated);
 
 
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponseDTO> loginUser(@RequestBody LoginRequestDTO loginDTO){
+        return ResponseEntity.ok().body(userService.loginUser(loginDTO));
     }
 
 }
