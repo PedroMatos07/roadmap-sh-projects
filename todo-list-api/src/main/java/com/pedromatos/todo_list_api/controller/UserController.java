@@ -24,7 +24,7 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<RegistrationResponseDTO> registerUser(@Valid @RequestBody RegistrationRequestDTO request, UriComponentsBuilder uriBuilder){
-           RegistrationResponseDTO userCreated = userService.registerUser(request);
+        RegistrationResponseDTO userCreated = userService.registerUser(request);
 
         URI uri = uriBuilder
                 .path("/{id}")

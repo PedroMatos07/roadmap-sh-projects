@@ -18,4 +18,9 @@ public class GlobalExceptionHandler {
         return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Credentials");
     }
 
+    @ExceptionHandler(InvalidTokenException.class)
+    public ResponseEntity<String> handleInvalidToken(){
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("message: Unauthorized");
+    }
+
 }
