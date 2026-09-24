@@ -1,5 +1,6 @@
 package com.pedromatos.todo_list_api.controller;
 
+import com.pedromatos.todo_list_api.dto.PagedTaskResponseDTO;
 import com.pedromatos.todo_list_api.dto.TaskRequestDTO;
 import com.pedromatos.todo_list_api.dto.TaskResponseDTO;
 import com.pedromatos.todo_list_api.service.TaskService;
@@ -35,5 +36,10 @@ public class TaskController {
         return  ResponseEntity.noContent().build();
     }
 
+    @GetMapping
+    public ResponseEntity<PagedTaskResponseDTO> getTask(@RequestParam (defaultValue = "1") int page, @RequestParam (defaultValue = "10") int limit){
+        PagedTaskResponseDTO responseDTO = taskService.getTasks(page, limit);
+        return ResponseEntity.ok(responseDTO);
+    }
 
 }
