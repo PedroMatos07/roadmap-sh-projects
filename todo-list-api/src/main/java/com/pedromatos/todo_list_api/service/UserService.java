@@ -4,7 +4,7 @@ import com.pedromatos.todo_list_api.dto.LoginRequestDTO;
 import com.pedromatos.todo_list_api.dto.LoginResponseDTO;
 import com.pedromatos.todo_list_api.dto.RegistrationRequestDTO;
 import com.pedromatos.todo_list_api.dto.RegistrationResponseDTO;
-import com.pedromatos.todo_list_api.exception.EmailAlreadyExistsException;
+import com.pedromatos.todo_list_api.exception.ConflictException;
 import com.pedromatos.todo_list_api.exception.InvalidCredentialsException;
 import com.pedromatos.todo_list_api.model.User;
 import com.pedromatos.todo_list_api.repository.UserRepository;
@@ -30,7 +30,7 @@ public class UserService {
     public RegistrationResponseDTO registerUser(RegistrationRequestDTO request){
 
         if(userRepository.findByEmail(request.email()).isPresent()){
-            throw new EmailAlreadyExistsException();
+            throw new ConflictException("User already exist");
         }
 
         User newUser = new User(null, request.name(), request.email(), enconder.encode(request.password()));
